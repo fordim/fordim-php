@@ -30,6 +30,6 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         exclude:
-            - '../src/Controller/**/**/*Response.php'
-            - '../src/Controller/**/**/*Request.php'
+            - '../src/Controller/**/**/**/*Response.php'
+            - '../src/Controller/**/**/**/*Request.php'
         tags: [ 'controller.service_arguments' ]
