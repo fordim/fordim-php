@@ -6,7 +6,7 @@ namespace App\Controller\Api\User\Response;
 
 use App\Infrastructure\Doctrine\Entity\User;
 
-class UserResponse
+final readonly class UserResponse
 {
     static public function createUserResponse(User $user): array
     {

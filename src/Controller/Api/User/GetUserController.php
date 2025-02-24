@@ -10,7 +10,7 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetUserController
+final readonly class GetUserController
 {
     private UserRepository $userRepository;
 

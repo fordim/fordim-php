@@ -12,7 +12,7 @@ use FOS\RestBundle\View\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 
-class AddUserController
+final readonly class AddUserController
 {
     private UserRepository $userRepository;
 
