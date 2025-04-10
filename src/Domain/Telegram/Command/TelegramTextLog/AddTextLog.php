@@ -29,4 +29,17 @@ final readonly class AddTextLog
 
         $this->telegramTextLogRepository->save($newLog);
     }
+
+    public function saveOnlyText(TelegramUser $telegramUser, string $text): void
+    {
+        $newLog = new TelegramTextLog();
+        $newLog
+            ->setChatId($telegramUser->getChatId())
+            ->setUserId($telegramUser->getId())
+            ->setMessage($text)
+            ->setSendAt(new DateTimeImmutable())
+        ;
+
+        $this->telegramTextLogRepository->save($newLog);
+    }
 }

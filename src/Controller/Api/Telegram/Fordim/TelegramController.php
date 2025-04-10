@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Telegram\Fordim;
 
+use App\Domain\Telegram\Command\Telegram\Fordim\TextMessageCommand;
 use App\Infrastructure\Factory\CommandFactory;
 use FOS\RestBundle\Controller\Annotations\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,7 @@ class TelegramController extends AbstractController
     public function __construct(
         private readonly Api $telegram,
         private readonly CommandFactory $commandFactory,
+        private readonly TextMessageCommand $textMessageCommand,
     ) {
     }
 
@@ -48,9 +50,11 @@ class TelegramController extends AbstractController
             $this->telegram->commandsHandler(true);
 
             if (!str_starts_with($text, '/')) {
+            $this->textMessageCommand->handle($chatId, $text);
+
                 $this->telegram->sendMessage([
                     'chat_id' => $chatId,
-                    'text' => 'Вы сказали: ' . $text,
+                    'text' => 'Такой команды нет: ' . $text,
                 ]);
             }
         }
