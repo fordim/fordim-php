@@ -32,10 +32,11 @@ final class RestaurantCommand extends Command
 
         $this->replyWithMessage([
             'parse_mode' => 'HTML',
+            'disable_web_page_preview' => true,
             'text' => sprintf(
                 <<<'TXT'
                 🍽️ Собираемся в ресторане по адресу:
-                г. Краснодар, ул. Чапаева 86. <a href="%s">(ссылка)</a>
+                г. Краснодар, ул. Чапаева 86. <a href="%s?utm_source=telegram">(ссылка)</a>
                 TXT,
                 self::YANDEX_LINK,
             ),

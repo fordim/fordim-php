@@ -32,6 +32,7 @@ final class WeddingHallCommand extends Command
 
         $this->replyWithMessage([
             'parse_mode' => 'HTML',
+            'disable_web_page_preview' => true,
             'text' => sprintf(
                 <<<'TXT'
                 ⛪️ Брачная церимония состоятся по адресу:
