@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Bot;
+namespace App\Controller\Api\Telegram;
 
 use App\Domain\Telegram\Command\TelegramTextLog\AddTextLog;
 use App\Domain\Telegram\Command\TelegramUser\AddAndUpdateUserCommand;

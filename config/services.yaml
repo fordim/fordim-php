@@ -1,4 +1,5 @@
 parameters:
+    telegram_bot_token_fordim: '%env(TELEGRAM_BOT_TOKEN_FORDIM)%'
 
 services:
     _defaults:
@@ -22,3 +23,12 @@ services:
             - '../src/Controller/**/**/**/*Response.php'
             - '../src/Controller/**/**/**/*Request.php'
         tags: [ 'controller.service_arguments' ]
+
+    app.telegram.fordim.api:
+        class: Telegram\Bot\Api
+        arguments:
+            - '%telegram_bot_token_fordim%'
+
+    App\Controller\Api\Telegram\Fordim\TelegramController:
+        arguments:
+            $telegram: '@app.telegram.fordim.api'
