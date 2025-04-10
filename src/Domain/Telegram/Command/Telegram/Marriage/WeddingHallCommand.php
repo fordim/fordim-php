@@ -9,14 +9,16 @@ use App\Domain\Telegram\Command\TelegramUser\AddAndUpdateUserCommand;
 use App\Domain\Telegram\Type\TelegramType;
 use Telegram\Bot\Commands\Command;
 
-class WeddingHallCommand extends Command
+final class WeddingHallCommand extends Command
 {
     protected string $name = 'wedding_hall';
     protected string $description = 'Место проведение церимонии бракосочетания';
 
+    private const YANDEX_LINK = 'https://yandex.ru/maps/-/CHVLqGkT';
+
     public function __construct(
-        private AddAndUpdateUserCommand $addAndUpdateUserCommand,
-        private AddTextLog $addTextLog,
+        private readonly AddAndUpdateUserCommand $addAndUpdateUserCommand,
+        private readonly AddTextLog $addTextLog,
     ) {
     }
 
@@ -29,7 +31,15 @@ class WeddingHallCommand extends Command
         $this->addTextLog->process($telegramUser, $message);
 
         $this->replyWithMessage([
-            'text' => "Брачная церимония состоятся по адресу ",
+            'parse_mode' => 'HTML',
+            'text' => sprintf(
+                <<<'TXT'
+                ⛪️ Брачная церимония состоятся по адресу:
+                г. Краснодар, ул. Офицерская 47. <a href="%s">(ссылка)</a>
+                Всех гостей ждем у основного входа в главный Екатерининский зал.
+                TXT,
+                self::YANDEX_LINK,
+            ),
         ]);
     }
 }

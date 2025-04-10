@@ -1,5 +1,6 @@
 parameters:
     telegram_bot_token_fordim: '%env(TELEGRAM_BOT_TOKEN_FORDIM)%'
+    telegram_bot_token_marriage: '%env(TELEGRAM_BOT_TOKEN_MARRIAGE)%'
 
 services:
     _defaults:
@@ -32,3 +33,12 @@ services:
     App\Controller\Api\Telegram\Fordim\TelegramController:
         arguments:
             $telegram: '@app.telegram.fordim.api'
+
+    app.telegram.marriage.api:
+        class: Telegram\Bot\Api
+        arguments:
+            - '%telegram_bot_token_marriage%'
+
+    App\Controller\Api\Telegram\Marriage\TelegramController:
+        arguments:
+            $telegram: '@app.telegram.marriage.api'

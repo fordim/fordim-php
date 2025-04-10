@@ -9,14 +9,14 @@ use App\Domain\Telegram\Command\TelegramUser\AddAndUpdateUserCommand;
 use App\Domain\Telegram\Type\TelegramType;
 use Telegram\Bot\Commands\Command;
 
-class StartCommand extends Command
+final class WelcomeCommand extends Command
 {
     protected string $name = 'start';
     protected string $description = 'Приветсвенная команда';
 
     public function __construct(
-        private AddAndUpdateUserCommand $addAndUpdateUserCommand,
-        private AddTextLog $addTextLog,
+        private readonly AddAndUpdateUserCommand $addAndUpdateUserCommand,
+        private readonly AddTextLog $addTextLog,
     ) {
     }
 
@@ -29,7 +29,14 @@ class StartCommand extends Command
         $this->addTextLog->process($telegramUser, $message);
 
         $this->replyWithMessage([
-            'text' => "Привет, {$telegramUser->getUserName()}! Добро пожаловать в бота, тут можно найти всю необходимую информацию о свадьбе!",
+            'text' => sprintf(
+                <<<'TXT'
+                Привет, %s!
+                Добро пожаловать в свадебного бота 💍, тут можно найти всю необходимую информацию о свадьбе!
+                Используйте меню, что-бы получить какую-то конкретную информацию 📝.
+                TXT,
+                $telegramUser->getUserName(),
+            ),
         ]);
     }
 }

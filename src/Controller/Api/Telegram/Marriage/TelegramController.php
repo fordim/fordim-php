@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Telegram\Fordim;
+namespace App\Controller\Api\Telegram\Marriage;
 
-use App\Domain\Telegram\Command\Telegram\Fordim\TextMessageCommand;
+use App\Domain\Telegram\Command\Telegram\Marriage\TextMessageCommand;
 use App\Infrastructure\Factory\CommandFactory;
 use FOS\RestBundle\Controller\Annotations\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,13 +22,13 @@ class TelegramController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/api/webhook/fordim', methods: ['POST'])]
-    public function handleFordimWebhook(Request $request): Response
+    #[Route(path: '/api/webhook/marriage', methods: ['POST'])]
+    public function handleMarriageWebhook(Request $request): Response
     {
         $input = $request->getContent();
         $data = json_decode($input, true);
 
-        $logFile = __DIR__ . '/fordim_log.txt';
+        $logFile = __DIR__ . '/marriage_log.txt';
 
         file_put_contents(
             $logFile,
@@ -37,8 +37,10 @@ class TelegramController extends AbstractController
         );
 
         $this->telegram->addCommands([
-            $this->commandFactory->createStartCommand(),
-            $this->commandFactory->createFinishCommand(),
+            $this->commandFactory->createWelcomeCommand(),
+            $this->commandFactory->createRestaurantCommand(),
+            $this->commandFactory->createWeddingHallCommand(),
+            $this->commandFactory->createContactsCommand(),
             HelpCommand::class,
         ]);
 

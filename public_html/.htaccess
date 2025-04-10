@@ -1,0 +1,17 @@
+AddDefaultCharset utf-8
+
+RewriteEngine on
+RewriteBase /
+
+# Общее правило для API
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule api/(.*)$ /index.php [NC,L,QSA]
+
+RewriteRule think-it-up /index.html [NC,L,QSA]
+RewriteRule guess-word /index.html [NC,L,QSA]
+RewriteRule new-year-math-kids /index.html [NC,L,QSA]
+RewriteRule new-year-math-junior /index.html [NC,L,QSA]
+RewriteRule new-year-clubs /index.html [NC,L,QSA]
+RewriteRule admin-cabinet /index.html [NC,L,QSA]
+RewriteRule wedding /index.html [NC,L,QSA]

@@ -9,12 +9,10 @@ use App\Domain\Telegram\Command\TelegramUser\AddAndUpdateUserCommand;
 use App\Domain\Telegram\Type\TelegramType;
 use Telegram\Bot\Commands\Command;
 
-final class RestaurantCommand extends Command
+final class ContactsCommand extends Command
 {
-    protected string $name = 'restaurant';
-    protected string $description = 'Место проведение банкета';
-
-    private const YANDEX_LINK = 'https://yandex.ru/maps/-/CHVLuZ1j';
+    protected string $name = 'contacts';
+    protected string $description = 'Контакты которые могут пригодится';
 
     public function __construct(
         private readonly AddAndUpdateUserCommand $addAndUpdateUserCommand,
@@ -34,10 +32,11 @@ final class RestaurantCommand extends Command
             'parse_mode' => 'HTML',
             'text' => sprintf(
                 <<<'TXT'
-                🍽️ Собираемся в ресторане по адресу:
-                г. Краснодар, ул. Чапаева 86. <a href="%s">(ссылка)</a>
+                - Невеста (+7989-532-47-91)
+                - Жених (+7989-795-46-78)
+                - Координатор (+7918-996-25-28)
+                - Ведущий (+7989-294-13-58)
                 TXT,
-                self::YANDEX_LINK,
             ),
         ]);
     }
