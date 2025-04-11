@@ -51,7 +51,7 @@ final class WelcomeCommand extends Command
         $imagePath = __DIR__ . '/../../../../../../public_html/images/colors.PNG';
 
         $this->replyWithPhoto([
-            'chat_id' => 576623234,
+            'chat_id' => $telegramUser->getChatId(),
             'photo' => InputFile::create(fopen($imagePath, 'rb'), 'colors.PNG'),
             'caption' => 'Так же просим ограничить яркие цвета, принты. Мы будем рады и благодарны, если своими нарядами вы поддержите цветовую гамму дня.',
             'parse_mode' => 'HTML',

@@ -36,7 +36,7 @@ final class RestaurantCommand extends Command
             'text' => sprintf(
                 <<<'TXT'
                 🍽️ Собираемся в ресторане по адресу:
-                г. Краснодар, ул. Чапаева 86. <a href="%s?utm_source=telegram">(ссылка)</a>
+                г. Краснодар, ул. Чапаева 86. <a href="%s?utm_source=telegram">(Ссылка на карту)</a>
                 TXT,
                 self::YANDEX_LINK,
             ),
