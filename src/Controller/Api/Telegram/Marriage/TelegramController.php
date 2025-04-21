@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use App\Domain\Telegram\Command\Telegram\Marriage\CallbackQueryCommand;
 
 class TelegramController extends AbstractController
 {
@@ -20,6 +21,7 @@ class TelegramController extends AbstractController
         private readonly Api $telegram,
         private readonly CommandFactory $commandFactory,
         private readonly MessageCommand $textMessageCommand,
+        private readonly CallbackQueryCommand $callbackQueryCommand,
     ) {
     }
 
@@ -50,6 +52,12 @@ class TelegramController extends AbstractController
                 $this->telegram->commandsHandler(true);
 
                 $this->textMessageCommand->handle($this->telegram, $data['message']);
+            }
+            
+            // Обработка callback-запросов
+            if (isset($data['callback_query'])) {
+                $callbackQuery = new \Telegram\Bot\Objects\CallbackQuery($data['callback_query']);
+                $this->callbackQueryCommand->handle($this->telegram, $callbackQuery);
             }
         } catch (TelegramSDKException $exception) {
             file_put_contents(

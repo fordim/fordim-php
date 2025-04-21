@@ -7,6 +7,7 @@ namespace App\Infrastructure\Factory;
 use App\Domain\Telegram\Command\Telegram\Fordim\FinishCommand;
 use App\Domain\Telegram\Command\Telegram\Fordim\StartCommand;
 use App\Domain\Telegram\Command\Telegram\Marriage\ContactsCommand;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendWelcomeMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\RestaurantCommand;
 use App\Domain\Telegram\Command\Telegram\Marriage\WeddingHallCommand;
 use App\Domain\Telegram\Command\Telegram\Marriage\WelcomeCommand;
@@ -18,6 +19,7 @@ final readonly class CommandFactory
     public function __construct(
         private AddAndUpdateUserCommand $addAndUpdateUserCommand,
         private AddTextLog $addTextLog,
+        private SendWelcomeMessage $sendWelcomeMessage,
     ) {
     }
 
@@ -33,7 +35,7 @@ final readonly class CommandFactory
 
     public function createWelcomeCommand(): WelcomeCommand
     {
-        return new WelcomeCommand($this->addAndUpdateUserCommand, $this->addTextLog);
+        return new WelcomeCommand($this->addAndUpdateUserCommand, $this->addTextLog, $this->sendWelcomeMessage);
     }
 
     public function createRestaurantCommand(): RestaurantCommand

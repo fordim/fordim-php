@@ -42,3 +42,7 @@ services:
     App\Controller\Api\Telegram\Marriage\TelegramController:
         arguments:
             $telegram: '@app.telegram.marriage.api'
+
+    App\Domain\Telegram\Command\Telegram\Marriage\CallbackQueryCommand:
+        tags:
+            - { name: 'telegram.command', command: 'callback_query' }

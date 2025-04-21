@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Telegram\Command\Telegram\Marriage;
 
 use App\Domain\Telegram\Command\TelegramTextLog\AddTextLog;
+use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use App\Infrastructure\Repository\Doctrine\TelegramUser\TelegramUserRepository;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -34,7 +35,31 @@ final readonly class MessageCommand
             return;
         }
 
-        $this->saveLog($chatId, $text);
+        // Проверяем существование пользователя
+        $existUser = $this->telegramUserRepository->findByChatId($chatId);
+
+        // Если пользователь новый и отправил не команду, отправляем кнопку Старт
+        if ($existUser === null && !str_starts_with($text, '/')) {
+            // Создаем клавиатуру с кнопкой Старт
+            $keyboard = [
+                'inline_keyboard' => [
+                    [
+                        ['text' => '🎉 Начать', 'callback_data' => 'start_welcome']
+                    ]
+                ]
+            ];
+            
+            // Отправляем сообщение с кнопкой
+            $telegram->sendMessage([
+                'chat_id' => $chatId,
+                'text' => 'Добро пожаловать! Нажмите кнопку "Начать", чтобы начать взаимодействие с ботом.',
+                'reply_markup' => json_encode($keyboard)
+            ]);
+            
+            return;
+        }
+
+        $this->saveTextLog($existUser, $text);
 
         if (!str_starts_with($text, '/')) {
             $telegram->sendMessage([
@@ -44,10 +69,8 @@ final readonly class MessageCommand
         }
     }
 
-    private function saveLog(int $chatId, string $text): void
+    private function saveTextLog(?TelegramUser $existUser, string $text): void
     {
-        $existUser = $this->telegramUserRepository->findByChatId($chatId);
-
         if ($existUser === null) {
             return;
         }
