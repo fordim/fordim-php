@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Domain\Telegram\Command\Telegram\Marriage;
 
+use App\Domain\Telegram\Command\Telegram\Marriage\Trait\KeyboardTrait;
 use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use Telegram\Bot\Api;
 
 final readonly class AddFullMenu
 {
+    use KeyboardTrait;
+
     public function __construct() {}
 
     public function handleDirectly(Api $telegram, TelegramUser $telegramUser): void
@@ -19,28 +22,22 @@ final readonly class AddFullMenu
                     ['text' => 'Ресторан 🍽️', 'callback_data' => 'restaurant'],
                 ],
                 [
-                    ['text' => 'Загс ⛪️', 'callback_data' => 'wedding_hall'],
+                    ['text' => 'Загс ⛪️', 'callback_data' => 'wedding-hall'],
                 ],
                 [
                     ['text' => 'Контанты 📲', 'callback_data' => 'contacts'],
                 ],
                 [
-                    ['text' => 'Дресс-код 👗', 'callback_data' => 'dress_code'],
+                    ['text' => 'Дресс-код 👗', 'callback_data' => 'dress-code'],
                 ],
             ]
         ];
 
-        try {
-            $telegram->sendMessage([
-                'chat_id' => $telegramUser->getChatId(),
-                'text' => '📝 Выбирайте интересующие вопросы:',
-                'reply_markup' => json_encode($keyboard)
-            ]);
-        } catch (\Exception $e) {
-            $telegram->sendMessage([
-                'chat_id' => $telegramUser->getChatId(),
-                'text' => 'Отладка: Ошибка при обработке кнопки: ' . $e->getMessage(),
-            ]);
-        }
+        $this->sendMessageWithKeyboard(
+            $telegram,
+            $telegramUser,
+            '📝 Выбирайте интересующие вопросы:',
+            $keyboard
+        );
     }
 }
