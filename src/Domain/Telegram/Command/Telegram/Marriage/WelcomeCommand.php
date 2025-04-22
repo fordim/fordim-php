@@ -19,6 +19,7 @@ final class WelcomeCommand extends Command
         private readonly AddAndUpdateUserCommand $addAndUpdateUserCommand,
         private readonly AddTextLog $addTextLog,
         private readonly SendWelcomeMessage $sendWelcomeMessage,
+        private readonly AddFullMenu $addFullMenu,
     ) {
     }
 
@@ -31,5 +32,7 @@ final class WelcomeCommand extends Command
         $this->addTextLog->process($telegramUser, $message);
 
         $this->sendWelcomeMessage->handleDirectly($this->telegram, $telegramUser);
+
+        $this->addFullMenu->handleDirectly($this->telegram, $telegramUser);
     }
 }

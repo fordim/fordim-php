@@ -4,17 +4,27 @@ declare(strict_types=1);
 
 namespace App\Domain\Telegram\Command\Telegram\Marriage;
 
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendContactsMessage;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendDressCodeMessage;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendRestaurantMessage;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendWeddingHallMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendWelcomeMessage;
 use App\Domain\Telegram\Command\TelegramUser\AddAndUpdateUserCommand;
 use App\Domain\Telegram\Type\TelegramType;
 use Telegram\Bot\Api;
 use Telegram\Bot\Objects\CallbackQuery;
 
-final class CallbackQueryCommand
+final readonly class CallbackQueryCommand
 {
     public function __construct(
-        private readonly AddAndUpdateUserCommand $addAndUpdateUserCommand,
-        private readonly SendWelcomeMessage $sendWelcomeMessage,
+        private AddAndUpdateUserCommand $addAndUpdateUserCommand,
+        private SendWelcomeMessage $sendWelcomeMessage,
+        private SendDressCodeMessage $sendDressCodeMessage,
+        private SendRestaurantMessage $sendRestaurantMessage,
+        private SendWeddingHallMessage $sendWeddingHallMessage,
+        private SendContactsMessage $sendContactsMessage,
+        private AddFullMenu $addFullMenu,
+        private AddMenuButton $addMenuButton,
     ) {
     }
 
@@ -25,40 +35,29 @@ final class CallbackQueryCommand
         $chatId = $message->getChat()->getId();
         $from = $callbackQuery->getFrom();
 
-        // Отправляем отладочное сообщение
-        $telegram->sendMessage([
-            'chat_id' => $chatId,
-            'text' => 'Отладка: Получен callback_query с данными: ' . $data,
+        $telegramUser = $this->addAndUpdateUserCommand->process($from, TelegramType::wedding);
+
+        $telegram->answerCallbackQuery([
+            'callback_query_id' => $callbackQuery->getId(),
         ]);
 
-        if ($data === 'start_welcome') {
-            try {
-                $telegramUser = $this->addAndUpdateUserCommand->process($from, TelegramType::wedding);
-                
-                $this->sendWelcomeMessage->handleDirectly($telegram, $telegramUser);
+        $telegram->deleteMessage([
+            'chat_id' => $chatId,
+            'message_id' => $message->getMessageId(),
+        ]);
 
-                // Отвечаем на callback, чтобы убрать "часики" на кнопке
-                $telegram->answerCallbackQuery([
-                    'callback_query_id' => $callbackQuery->getId(),
-                ]);
+        match ($data) {
+            'start_welcome' => $this->sendWelcomeMessage->handleDirectly($telegram, $telegramUser),
+            'dress_code' => $this->sendDressCodeMessage->handleDirectly($telegram, $telegramUser),
+            'restaurant' => $this->sendRestaurantMessage->handleDirectly($telegram, $telegramUser),
+            'wedding_hall' => $this->sendWeddingHallMessage->handleDirectly($telegram, $telegramUser),
+            'contacts' => $this->sendContactsMessage->handleDirectly($telegram, $telegramUser),
+            'menu' => $this->addFullMenu->handleDirectly($telegram, $telegramUser),
+            default => null,
+        };
 
-                // Удаляем сообщение с кнопкой
-                $telegram->deleteMessage([
-                    'chat_id' => $chatId,
-                    'message_id' => $message->getMessageId(),
-                ]);
-            } catch (\Exception $e) {
-                $telegram->sendMessage([
-                    'chat_id' => $chatId,
-                    'text' => 'Отладка: Ошибка при обработке кнопки: ' . $e->getMessage(),
-                ]);
-            }
-        } else {
-            // Отправляем отладочное сообщение
-            $telegram->sendMessage([
-                'chat_id' => $chatId,
-                'text' => 'Отладка: Неизвестный callback_data: ' . $data,
-            ]);
+        if ($data !== 'menu') {
+            $this->addMenuButton->handleDirectly($telegram, $telegramUser);
         }
     }
 } 

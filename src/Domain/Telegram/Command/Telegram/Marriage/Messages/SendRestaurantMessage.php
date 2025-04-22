@@ -7,8 +7,10 @@ namespace App\Domain\Telegram\Command\Telegram\Marriage\Messages;
 use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use Telegram\Bot\Api;
 
-final readonly class SendWelcomeMessage
+final readonly class SendRestaurantMessage
 {
+    private const YANDEX_LINK = 'https://yandex.ru/maps/-/CHVLuZ1j';
+
     public function __construct() {}
 
     public function handleDirectly(Api $telegram, TelegramUser $telegramUser): void
@@ -16,13 +18,16 @@ final readonly class SendWelcomeMessage
         try {
             $telegram->sendMessage([
                 'chat_id' => $telegramUser->getChatId(),
+                'parse_mode' => 'HTML',
+                'disable_web_page_preview' => true,
                 'text' => sprintf(
                     <<<'TXT'
-                    Привет, %s!
-                    Добро пожаловать в свадебного бота 💍🎉
-                    Тут можно найти всю необходимую информацию о свадьбе Светланы и Дмитрия!
-                    TXT,
-                    $telegramUser->getUserName(),
+                <b>Ресторан:</b>
+                
+                🍽️ Собираемся в ресторане по адресу:
+                г. Краснодар, ул. Чапаева 86. <a href="%s?utm_source=telegram">(Ссылка на карту)</a>
+                TXT,
+                    self::YANDEX_LINK,
                 ),
             ]);
         } catch (\Exception $e) {

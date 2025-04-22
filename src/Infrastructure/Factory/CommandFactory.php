@@ -6,7 +6,12 @@ namespace App\Infrastructure\Factory;
 
 use App\Domain\Telegram\Command\Telegram\Fordim\FinishCommand;
 use App\Domain\Telegram\Command\Telegram\Fordim\StartCommand;
+use App\Domain\Telegram\Command\Telegram\Marriage\AddFullMenu;
+use App\Domain\Telegram\Command\Telegram\Marriage\AddMenuButton;
 use App\Domain\Telegram\Command\Telegram\Marriage\ContactsCommand;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendContactsMessage;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendRestaurantMessage;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendWeddingHallMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendWelcomeMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\RestaurantCommand;
 use App\Domain\Telegram\Command\Telegram\Marriage\WeddingHallCommand;
@@ -20,6 +25,11 @@ final readonly class CommandFactory
         private AddAndUpdateUserCommand $addAndUpdateUserCommand,
         private AddTextLog $addTextLog,
         private SendWelcomeMessage $sendWelcomeMessage,
+        private AddFullMenu $addFullMenu,
+        private SendContactsMessage $sendContactsMessage,
+        private SendRestaurantMessage $sendRestaurantMessage,
+        private SendWeddingHallMessage $sendWeddingHallMessage,
+        private AddMenuButton $addMenuButton,
     ) {
     }
 
@@ -35,21 +45,41 @@ final readonly class CommandFactory
 
     public function createWelcomeCommand(): WelcomeCommand
     {
-        return new WelcomeCommand($this->addAndUpdateUserCommand, $this->addTextLog, $this->sendWelcomeMessage);
+        return new WelcomeCommand(
+            $this->addAndUpdateUserCommand,
+            $this->addTextLog,
+            $this->sendWelcomeMessage,
+            $this->addFullMenu,
+        );
     }
 
     public function createRestaurantCommand(): RestaurantCommand
     {
-        return new RestaurantCommand($this->addAndUpdateUserCommand, $this->addTextLog);
+        return new RestaurantCommand(
+            $this->addAndUpdateUserCommand,
+            $this->addTextLog,
+            $this->sendRestaurantMessage,
+            $this->addMenuButton,
+        );
     }
 
     public function createWeddingHallCommand(): WeddingHallCommand
     {
-        return new WeddingHallCommand($this->addAndUpdateUserCommand, $this->addTextLog);
+        return new WeddingHallCommand(
+            $this->addAndUpdateUserCommand,
+            $this->addTextLog,
+            $this->sendWeddingHallMessage,
+            $this->addMenuButton,
+        );
     }
 
     public function createContactsCommand(): ContactsCommand
     {
-        return new ContactsCommand($this->addAndUpdateUserCommand, $this->addTextLog);
+        return new ContactsCommand(
+            $this->addAndUpdateUserCommand,
+            $this->addTextLog,
+            $this->sendContactsMessage,
+            $this->addMenuButton,
+        );
     }
 }

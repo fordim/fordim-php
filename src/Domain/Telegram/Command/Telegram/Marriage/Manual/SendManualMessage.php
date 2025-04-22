@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Telegram\Command\Telegram\Marriage\Manual;
 
-use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendNotificationMessage;
-use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendVideoMessage;
 use App\Domain\Telegram\Type\MessageType;
 use App\Infrastructure\Repository\Doctrine\TelegramUser\TelegramUserRepository;
 use Telegram\Bot\Api;

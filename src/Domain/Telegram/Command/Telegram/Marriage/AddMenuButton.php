@@ -2,28 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Telegram\Command\Telegram\Marriage\Messages;
+namespace App\Domain\Telegram\Command\Telegram\Marriage;
 
 use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use Telegram\Bot\Api;
 
-final readonly class SendWelcomeMessage
+final readonly class AddMenuButton
 {
     public function __construct() {}
 
     public function handleDirectly(Api $telegram, TelegramUser $telegramUser): void
     {
+        $keyboard = [
+            'inline_keyboard' => [
+                [
+                    ['text' => 'Меню', 'callback_data' => 'menu'],
+                ],
+            ]
+        ];
+
         try {
             $telegram->sendMessage([
                 'chat_id' => $telegramUser->getChatId(),
-                'text' => sprintf(
-                    <<<'TXT'
-                    Привет, %s!
-                    Добро пожаловать в свадебного бота 💍🎉
-                    Тут можно найти всю необходимую информацию о свадьбе Светланы и Дмитрия!
-                    TXT,
-                    $telegramUser->getUserName(),
-                ),
+                'text' => '📝 Вызвать меню бота:',
+                'reply_markup' => json_encode($keyboard)
             ]);
         } catch (\Exception $e) {
             $telegram->sendMessage([

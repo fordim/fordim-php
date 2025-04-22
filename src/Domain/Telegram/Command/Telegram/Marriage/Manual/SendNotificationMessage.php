@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Telegram\Command\Telegram\Marriage\Messages;
+namespace App\Domain\Telegram\Command\Telegram\Marriage\Manual;
 
 use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use Telegram\Bot\Api;
