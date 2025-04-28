@@ -42,9 +42,6 @@ class TelegramController extends AbstractController
         try {
             $this->telegram->addCommands([
                 $this->commandFactory->createWelcomeCommand(),
-                $this->commandFactory->createRestaurantCommand(),
-                $this->commandFactory->createWeddingHallCommand(),
-                $this->commandFactory->createContactsCommand(),
                 HelpCommand::class,
             ]);
 

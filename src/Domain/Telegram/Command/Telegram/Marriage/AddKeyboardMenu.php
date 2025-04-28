@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Telegram\Command\Telegram\Marriage;
 
 use App\Domain\Telegram\Command\Telegram\Marriage\Trait\KeyboardTrait;
+use App\Domain\Telegram\Type\CommandMessageType;
 use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use Telegram\Bot\Api;
 
@@ -19,15 +20,15 @@ final readonly class AddKeyboardMenu
         $keyboard = [
             'keyboard' => [
                 [
-                    ['text' => '🍽️ Ресторан'],
-                    ['text' => '⛪️ Загс'],
+                    ['text' => CommandMessageType::restaurant->value],
+                    ['text' => CommandMessageType::weddingHall->value],
                 ],
                 [
-                    ['text' => '📲 Контанты'],
-                    ['text' => '👗 Дресс-код'],
+                    ['text' => CommandMessageType::contacts->value],
+                    ['text' => CommandMessageType::dressCode->value],
                 ],
                 [
-                    ['text' => '🌴 Краснодар'],
+                    ['text' => CommandMessageType::krasnodar->value],
                 ],
             ],
             'resize_keyboard' => true,
