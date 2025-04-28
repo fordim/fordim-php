@@ -7,7 +7,7 @@ namespace App\Infrastructure\Factory;
 use App\Domain\Telegram\Command\Telegram\Fordim\FinishCommand;
 use App\Domain\Telegram\Command\Telegram\Fordim\StartCommand;
 use App\Domain\Telegram\Command\Telegram\Marriage\AddFullMenu;
-use App\Domain\Telegram\Command\Telegram\Marriage\AddMenuButton;
+use App\Domain\Telegram\Command\Telegram\Marriage\AddKeyboardMenu;
 use App\Domain\Telegram\Command\Telegram\Marriage\ContactsCommand;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendContactsMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendRestaurantMessage;
@@ -29,7 +29,7 @@ final readonly class CommandFactory
         private SendContactsMessage $sendContactsMessage,
         private SendRestaurantMessage $sendRestaurantMessage,
         private SendWeddingHallMessage $sendWeddingHallMessage,
-        private AddMenuButton $addMenuButton,
+        private AddKeyboardMenu $addKeyboardMenu,
     ) {
     }
 
@@ -50,6 +50,7 @@ final readonly class CommandFactory
             $this->addTextLog,
             $this->sendWelcomeMessage,
             $this->addFullMenu,
+            $this->addKeyboardMenu,
         );
     }
 
@@ -59,7 +60,6 @@ final readonly class CommandFactory
             $this->addAndUpdateUserCommand,
             $this->addTextLog,
             $this->sendRestaurantMessage,
-            $this->addMenuButton,
         );
     }
 
@@ -69,7 +69,6 @@ final readonly class CommandFactory
             $this->addAndUpdateUserCommand,
             $this->addTextLog,
             $this->sendWeddingHallMessage,
-            $this->addMenuButton,
         );
     }
 
@@ -79,7 +78,6 @@ final readonly class CommandFactory
             $this->addAndUpdateUserCommand,
             $this->addTextLog,
             $this->sendContactsMessage,
-            $this->addMenuButton,
         );
     }
 }

@@ -6,26 +6,22 @@ namespace App\Domain\Telegram\Command\Telegram\Marriage\Messages;
 
 use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use Telegram\Bot\Api;
-use Telegram\Bot\FileUpload\InputFile;
 
-final readonly class SendDressCodeMessage
+final readonly class SendKrasnodarInfoMessage
 {
     public function __construct() {}
 
     public function handleDirectly(Api $telegram, TelegramUser $telegramUser): void
     {
         try {
-            $imagePath = __DIR__ . '/../../../../../../../public_html/images/colors.PNG';
-
-            $telegram->sendPhoto([
+            $telegram->sendMessage([
                 'chat_id' => $telegramUser->getChatId(),
-                'photo' => InputFile::create(fopen($imagePath, 'rb'), 'colors.PNG'),
                 'parse_mode' => 'HTML',
-                'caption' => sprintf(
+                'text' => sprintf(
                     <<<'TXT'
-                <b>Дресс-код:</b>
-
-                Просим ограничить яркие цвета, принты. Мы будем рады и благодарны, если своими нарядами вы поддержите цветовую гамму дня.
+                <b>Информация по Краснодару:</b>
+                
+                - Молодожены проживают по адресу ул. Жлобы, дом 141, подьезд 2.
                 TXT,
                 ),
             ]);

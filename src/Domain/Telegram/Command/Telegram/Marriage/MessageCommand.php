@@ -49,6 +49,26 @@ final readonly class MessageCommand
         $this->saveTextLog($existUser, $text);
 
         if (!str_starts_with($text, '/')) {
+
+
+            if ($text === 'Ресторан 🍽️') {
+                $telegram->sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => 'Такая команда есть: ' . $text,
+                ]);
+
+                return;
+            }
+
+            if ($text === 'Ресторан') {
+                $telegram->sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => 'Такая команда есть: ' . $text,
+                ]);
+
+                return;
+            }
+
             $telegram->sendMessage([
                 'chat_id' => $chatId,
                 'text' => 'Такой команды нет: ' . $text,

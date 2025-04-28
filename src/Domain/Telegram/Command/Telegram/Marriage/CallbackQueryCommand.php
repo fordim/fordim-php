@@ -6,6 +6,7 @@ namespace App\Domain\Telegram\Command\Telegram\Marriage;
 
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendContactsMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendDressCodeMessage;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendKrasnodarInfoMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendRestaurantMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendWeddingHallMessage;
 use App\Domain\Telegram\Command\TelegramUser\AddAndUpdateUserCommand;
@@ -21,7 +22,7 @@ final readonly class CallbackQueryCommand
         'restaurant' => 'restaurant',
         'wedding-hall' => 'wedding-hall',
         'contacts' => 'contacts',
-        'menu' => 'menu',
+        'krasnodar' => 'krasnodar',
     ];
 
     public function __construct(
@@ -30,8 +31,7 @@ final readonly class CallbackQueryCommand
         private SendRestaurantMessage $sendRestaurantMessage,
         private SendWeddingHallMessage $sendWeddingHallMessage,
         private SendContactsMessage $sendContactsMessage,
-        private AddFullMenu $addFullMenu,
-        private AddMenuButton $addMenuButton,
+        private SendKrasnodarInfoMessage $sendKrasnodarInfoMessage,
     ) {
     }
 
@@ -70,12 +70,8 @@ final readonly class CallbackQueryCommand
             self::CALLBACK_DATA['restaurant'] => $this->sendRestaurantMessage->handleDirectly($telegram, $telegramUser),
             self::CALLBACK_DATA['wedding-hall'] => $this->sendWeddingHallMessage->handleDirectly($telegram, $telegramUser),
             self::CALLBACK_DATA['contacts'] => $this->sendContactsMessage->handleDirectly($telegram, $telegramUser),
-            self::CALLBACK_DATA['menu'] => $this->addFullMenu->handleDirectly($telegram, $telegramUser),
+            self::CALLBACK_DATA['krasnodar'] => $this->sendKrasnodarInfoMessage->handleDirectly($telegram, $telegramUser),
             default => null,
         };
-
-        if ($data !== self::CALLBACK_DATA['menu']) {
-            $this->addMenuButton->handleDirectly($telegram, $telegramUser);
-        }
     }
 } 

@@ -19,7 +19,6 @@ final class RestaurantCommand extends Command
         private readonly AddAndUpdateUserCommand $addAndUpdateUserCommand,
         private readonly AddTextLog $addTextLog,
         private readonly SendRestaurantMessage $sendRestaurantMessage,
-        private readonly AddMenuButton $addMenuButton,
     ) {
     }
 
@@ -32,7 +31,5 @@ final class RestaurantCommand extends Command
         $this->addTextLog->process($telegramUser, $message);
 
         $this->sendRestaurantMessage->handleDirectly($this->telegram, $telegramUser);
-
-        $this->addMenuButton->handleDirectly($this->telegram, $telegramUser);
     }
 }

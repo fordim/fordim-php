@@ -19,7 +19,6 @@ final class WeddingHallCommand extends Command
         private readonly AddAndUpdateUserCommand $addAndUpdateUserCommand,
         private readonly AddTextLog $addTextLog,
         private readonly SendWeddingHallMessage $sendWeddingHallMessage,
-        private readonly AddMenuButton $addMenuButton,
     ) {
     }
 
@@ -32,7 +31,5 @@ final class WeddingHallCommand extends Command
         $this->addTextLog->process($telegramUser, $message);
 
         $this->sendWeddingHallMessage->handleDirectly($this->telegram, $telegramUser);
-
-        $this->addMenuButton->handleDirectly($this->telegram, $telegramUser);
     }
 }

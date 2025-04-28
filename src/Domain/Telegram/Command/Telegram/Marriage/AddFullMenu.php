@@ -19,16 +19,19 @@ final readonly class AddFullMenu
         $keyboard = [
             'inline_keyboard' => [
                 [
-                    ['text' => 'Ресторан 🍽️', 'callback_data' => 'restaurant'],
+                    ['text' => '🍽️ Ресторан', 'callback_data' => 'restaurant'],
                 ],
                 [
-                    ['text' => 'Загс ⛪️', 'callback_data' => 'wedding-hall'],
+                    ['text' => '⛪️ Загс', 'callback_data' => 'wedding-hall'],
                 ],
                 [
-                    ['text' => 'Контанты 📲', 'callback_data' => 'contacts'],
+                    ['text' => '📲 Контанты', 'callback_data' => 'contacts'],
                 ],
                 [
-                    ['text' => 'Дресс-код 👗', 'callback_data' => 'dress-code'],
+                    ['text' => '👗 Дресс-код', 'callback_data' => 'dress-code'],
+                ],
+                [
+                    ['text' => '🌴 Краснодар', 'callback_data' => 'krasnodar'],
                 ],
             ]
         ];
