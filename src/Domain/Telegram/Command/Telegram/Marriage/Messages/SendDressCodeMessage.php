@@ -10,21 +10,21 @@ use Telegram\Bot\FileUpload\InputFile;
 
 final readonly class SendDressCodeMessage
 {
+    private const picture = '/../../../../../../../public_html/images/dress-code.png';
+
     public function __construct() {}
 
     public function handleDirectly(Api $telegram, TelegramUser $telegramUser): void
     {
-        try {
-            $imagePath = __DIR__ . '/../../../../../../../public_html/images/colors.PNG';
+        $imagePath = __DIR__ . self::picture;
 
+        try {
             $telegram->sendPhoto([
                 'chat_id' => $telegramUser->getChatId(),
-                'photo' => InputFile::create(fopen($imagePath, 'rb'), 'colors.PNG'),
+                'photo' => InputFile::create(fopen($imagePath, 'rb'), 'dress-code.png'),
                 'parse_mode' => 'HTML',
                 'caption' => sprintf(
-                    <<<'TXT'
-                <b>Дресс-код:</b>
-
+                <<<'TXT'
                 Просим ограничить яркие цвета, принты. Мы будем рады и благодарны, если своими нарядами вы поддержите цветовую гамму дня.
                 TXT,
                 ),

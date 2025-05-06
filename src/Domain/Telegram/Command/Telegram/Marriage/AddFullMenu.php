@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Telegram\Command\Telegram\Marriage;
 
 use App\Domain\Telegram\Command\Telegram\Marriage\Trait\KeyboardTrait;
+use App\Domain\Telegram\Type\CommandMessageType;
 use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use Telegram\Bot\Api;
 
@@ -19,19 +20,19 @@ final readonly class AddFullMenu
         $keyboard = [
             'inline_keyboard' => [
                 [
-                    ['text' => '🍽️ Ресторан', 'callback_data' => 'restaurant'],
+                    ['text' => CommandMessageType::restaurant->value, 'callback_data' => 'restaurant'],
                 ],
                 [
-                    ['text' => '⛪️ Загс', 'callback_data' => 'wedding-hall'],
+                    ['text' => CommandMessageType::weddingHall->value, 'callback_data' => 'wedding-hall'],
                 ],
                 [
-                    ['text' => '📲 Контанты', 'callback_data' => 'contacts'],
+                    ['text' => CommandMessageType::contacts->value, 'callback_data' => 'contacts'],
                 ],
                 [
-                    ['text' => '👗 Дресс-код', 'callback_data' => 'dress-code'],
+                    ['text' => CommandMessageType::dressCode->value, 'callback_data' => 'dress-code'],
                 ],
                 [
-                    ['text' => '🌴 Краснодар', 'callback_data' => 'krasnodar'],
+                    ['text' => CommandMessageType::krasnodar->value, 'callback_data' => 'krasnodar'],
                 ],
             ]
         ];
@@ -39,7 +40,7 @@ final readonly class AddFullMenu
         $this->sendMessageWithKeyboard(
             $telegram,
             $telegramUser,
-            '📝 Выбирайте интересующие вопросы:',
+            '📝 Выбирай интересующие тебя вопросы:',
             $keyboard
         );
     }

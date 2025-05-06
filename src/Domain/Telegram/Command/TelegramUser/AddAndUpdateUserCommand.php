@@ -33,7 +33,7 @@ final readonly class AddAndUpdateUserCommand
             ->setChatId($user->getId())
             ->setUserName($user->getFirstName())
             ->setUserSurname($user->getLastName() ?? null)
-            ->setNickname($user->getUsername())
+            ->setNickname($user->getUsername() ?? 'mystery')
             ->setLanguageCode($user->getLanguageCode())
             ->setIsBot($user->isBot())
             ->setIsActive(true)

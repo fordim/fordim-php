@@ -7,10 +7,10 @@ namespace App\Domain\Telegram\Type;
 enum CommandMessageType: string
 {
     case restaurant = '🍽️ Ресторан';
-    case dressCode = '👗 Дресс-код';
-    case weddingHall = '⛪️ Загс';
+    case dressCode = '👔 Дресс-код';
+    case weddingHall = '⛪️ ЗАГС';
     case contacts = '📲 Контанты';
-    case krasnodar = '🌴 Краснодар';
+    case krasnodar = '📍 Краснодар';
 
     /**
      * @return string[]

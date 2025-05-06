@@ -6,26 +6,32 @@ namespace App\Domain\Telegram\Command\Telegram\Marriage\Messages;
 
 use App\Infrastructure\Doctrine\Entity\TelegramUser;
 use Telegram\Bot\Api;
+use Telegram\Bot\FileUpload\InputFile;
 
 final readonly class SendRestaurantMessage
 {
+    private const picture = '/../../../../../../../public_html/images/restaurant.png';
+
     private const YANDEX_LINK = 'https://yandex.ru/maps/-/CHVLuZ1j';
 
     public function __construct() {}
 
     public function handleDirectly(Api $telegram, TelegramUser $telegramUser): void
     {
+        $imagePath = __DIR__ . self::picture;
+
         try {
-            $telegram->sendMessage([
+            $telegram->sendPhoto([
                 'chat_id' => $telegramUser->getChatId(),
+                'photo' => InputFile::create(fopen($imagePath, 'rb'), 'restaurant.png'),
                 'parse_mode' => 'HTML',
-                'disable_web_page_preview' => true,
-                'text' => sprintf(
-                    <<<'TXT'
-                <b>Ресторан:</b>
+                'caption' => sprintf(
+                <<<'TXT'
+                Наш праздничный ужин пройдёт в ресторане <b>Central Park 22</b>🌿
                 
-                🍽️ Собираемся в ресторане по адресу:
-                г. Краснодар, ул. Чапаева 86. <a href="%s?utm_source=telegram">(Ссылка на карту)</a>
+                Адрес: г. Краснодар, ул. Чапаева 86. <a href="%s?utm_source=telegram">(Ссылка на карту)</a>
+
+                ⏰Сбор в ресторане в 17:00
                 TXT,
                     self::YANDEX_LINK,
                 ),

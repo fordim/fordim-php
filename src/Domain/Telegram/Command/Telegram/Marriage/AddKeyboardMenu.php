@@ -37,7 +37,7 @@ final readonly class AddKeyboardMenu
 
         $telegram->sendMessage([
             'chat_id' => $telegramUser->getChatId(),
-            'text' => 'Если возникли сложности с Ботом, пишите в личные сообщения.',
+            'text' => 'Если возникли сложности с ботом, пишите в личные сообщения.',
             'reply_markup' => json_encode($keyboard),
         ]);
     }
