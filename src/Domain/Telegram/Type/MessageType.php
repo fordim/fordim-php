@@ -8,6 +8,7 @@ enum MessageType: string
 {
     case notification = 'notification';
     case video = 'video';
+    case secondDay = 'secondDay';
 
     /**
      * @return string[]

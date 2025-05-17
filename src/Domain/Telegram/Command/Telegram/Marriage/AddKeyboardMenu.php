@@ -29,6 +29,7 @@ final readonly class AddKeyboardMenu
                 ],
                 [
                     ['text' => CommandMessageType::krasnodar->value],
+                    ['text' => CommandMessageType::secondDay->value],
                 ],
             ],
             'resize_keyboard' => true,

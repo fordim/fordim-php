@@ -9,8 +9,9 @@ enum CommandMessageType: string
     case restaurant = '🍽️ Ресторан';
     case dressCode = '👔 Дресс-код';
     case weddingHall = '⛪️ ЗАГС';
-    case contacts = '📲 Контанты';
+    case contacts = '📲 Контакты';
     case krasnodar = '📍 Краснодар';
+    case secondDay = '🍖 Второй день';
 
     /**
      * @return string[]

@@ -34,6 +34,9 @@ final readonly class AddFullMenu
                 [
                     ['text' => CommandMessageType::krasnodar->value, 'callback_data' => 'krasnodar'],
                 ],
+                [
+                    ['text' => CommandMessageType::secondDay->value, 'callback_data' => 'second-day'],
+                ],
             ]
         ];
 

@@ -8,6 +8,7 @@ use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendContactsMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendDressCodeMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendKrasnodarInfoMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendRestaurantMessage;
+use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendSecondDayMessage;
 use App\Domain\Telegram\Command\Telegram\Marriage\Messages\SendWeddingHallMessage;
 use App\Domain\Telegram\Command\TelegramTextLog\AddTextLog;
 use App\Domain\Telegram\Type\CommandMessageType;
@@ -26,6 +27,7 @@ final readonly class MessageCommand
         private SendWeddingHallMessage $sendWeddingHallMessage,
         private SendContactsMessage $sendContactsMessage,
         private SendKrasnodarInfoMessage $sendKrasnodarInfoMessage,
+        private SendSecondDayMessage $sendSecondDayMessage,
     ) {
     }
 
@@ -52,9 +54,9 @@ final readonly class MessageCommand
             return;
         }
 
-        $this->saveTextLog($telegramUser, $text);
-
         if (!str_starts_with($text, '/')) {
+            $this->saveTextLog($telegramUser, $text);
+
             switch ($text) {
                 case CommandMessageType::restaurant->value: {
                     $this->sendRestaurantMessage->handleDirectly($telegram, $telegramUser);
@@ -74,6 +76,10 @@ final readonly class MessageCommand
                 }
                 case CommandMessageType::krasnodar->value: {
                     $this->sendKrasnodarInfoMessage->handleDirectly($telegram, $telegramUser);
+                    break;
+                }
+                case CommandMessageType::secondDay->value: {
+                    $this->sendSecondDayMessage->handleDirectly($telegram, $telegramUser);
                     break;
                 }
                 default:

@@ -14,6 +14,7 @@ final readonly class SendManualMessage
         private TelegramUserRepository $telegramUserRepository,
         private SendNotificationMessage $sendNotificationMessage,
         private SendVideoMessage $sendVideoMessage,
+        private SendSecondDayNotificationMessage $sendSecondDayNotificationMessage,
     )
     {
     }
@@ -26,16 +27,23 @@ final readonly class SendManualMessage
         $telegramUsers = $this->telegramUserRepository->findAll();
         $results = [];
 
+//        $telegramUser = $this->telegramUserRepository->findOneBy(["chatId" => 576623234]);
+//        $telegramUser = $this->telegramUserRepository->findOneBy(["chatId" => 1328497194]);
+
         foreach ($telegramUsers as $telegramUser) {
             //Пока отправляю только себе
-            if ($telegramUser->getChatId() !== 576623234) {
-                continue;
-            }
+//            if ($telegramUser->getChatId() !== 576623234) {
+//                continue;
+//            }
 
             try {
                 match ($messageType) {
-                    MessageType::notification => $this->sendNotificationMessage->handleDirectly($telegram, $telegramUser),
-                    MessageType::video => $this->sendVideoMessage->handleDirectly($telegram, $telegramUser),
+//                    MessageType::notification => $this->sendNotificationMessage->handleDirectly($telegram, $telegramUser),
+//                    MessageType::video => $this->sendVideoMessage->handleDirectly($telegram, $telegramUser),
+                    MessageType::secondDay => $this->sendSecondDayNotificationMessage->handleDirectly(
+                        $telegram,
+                        $telegramUser,
+                    ),
                 };
 
                 $results[] = [
